@@ -1,0 +1,67 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model BlogPost {
+  id        Int      @id @default(autoincrement())
+  title     String
+  excerpt   String   @db.Text
+  content   String   @db.LongText
+  image     String
+  category  String
+  date      String
+  readTime  String
+  author    String   @default("Okuns Family")
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("blog_posts")
+}
+
+model Destination {
+  id          Int     @id @default(autoincrement())
+  name        String
+  country     String
+  tagline     String
+  description String  @db.Text
+  image       String
+  posts       Int     @default(0)
+  tag         String
+  active      Boolean @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("destinations")
+}
+
+model Video {
+  id         Int     @id @default(autoincrement())
+  title      String
+  thumbnail  String
+  duration   String
+  views      String
+  date       String
+  category   String
+  youtubeUrl String
+  active     Boolean @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("videos")
+}
+
+model AdminUser {
+  id           Int      @id @default(autoincrement())
+  email        String   @unique
+  passwordHash String
+  name         String
+  createdAt    DateTime @default(now())
+
+  @@map("admin_users")
+}
