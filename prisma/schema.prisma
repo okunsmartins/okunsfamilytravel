@@ -56,6 +56,22 @@ model Video {
   @@map("videos")
 }
 
+model HeroSlide {
+  id       Int     @id @default(autoincrement())
+  heading  String
+  italic   String
+  sub      String
+  tag      String
+  location String
+  image    String
+  order    Int     @default(0)
+  active   Boolean @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("hero_slides")
+}
+
 model AdminUser {
   id           Int      @id @default(autoincrement())
   email        String   @unique

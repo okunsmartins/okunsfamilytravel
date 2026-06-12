@@ -2,62 +2,27 @@
 
 import { useEffect, useRef, useState, useCallback } from 'react'
 
-const slides = [
-  {
-    id: 1,
-    image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=85',
-    location: 'Wild Atlantic Way, Ireland',
-    heading: 'Explore Ireland',
-    italic: '& The World',
-    sub: 'With Us',
-    tag: 'Ireland Travel',
-  },
-  {
-    id: 2,
-    image: 'https://images.unsplash.com/photo-1564399579883-451a5d44ec08?w=1920&q=85',
-    location: 'Cork City, Ireland',
-    heading: 'Castle Stays',
-    italic: '& Hidden Gems',
-    sub: 'Across Ireland',
-    tag: 'Castle & Hotels',
-  },
-  {
-    id: 3,
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=85',
-    location: 'African Safari',
-    heading: 'World Adventures',
-    italic: 'Beyond the Horizon',
-    sub: 'With the Family',
-    tag: 'World Travel',
-  },
-  {
-    id: 4,
-    image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85',
-    location: 'Ireland\'s Wild Coast',
-    heading: 'Beaches & Nature',
-    italic: 'Sun, Sand & Sea',
-    sub: 'Family Escapes',
-    tag: 'Beaches & Nature',
-  },
-  {
-    id: 5,
-    image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=85',
-    location: 'Food Adventures',
-    heading: 'Taste the World',
-    italic: 'Food & Culture',
-    sub: 'Family Favourites',
-    tag: 'Food & Restaurants',
-  },
+const FALLBACK_SLIDES = [
+  { id: 1, image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=85', location: 'Wild Atlantic Way, Ireland', heading: 'Explore Ireland', italic: '& The World', sub: 'With Us', tag: 'Ireland Travel' },
+  { id: 2, image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=85', location: 'African Safari', heading: 'World Adventures', italic: 'Beyond the Horizon', sub: 'With the Family', tag: 'World Travel' },
 ]
 
 const AUTOPLAY_INTERVAL = 6000
 
 export default function Hero() {
+  const [slides, setSlides] = useState(FALLBACK_SLIDES)
   const [current, setCurrent] = useState(0)
   const [prev, setPrev] = useState(null)
   const [animating, setAnimating] = useState(false)
   const [direction, setDirection] = useState('next')
   const timerRef = useRef(null)
+
+  useEffect(() => {
+    fetch('/api/slides')
+      .then(r => r.json())
+      .then(data => { if (data?.length) setSlides(data) })
+      .catch(() => {})
+  }, [])
 
   const goTo = useCallback((index, dir = 'next') => {
     if (animating) return

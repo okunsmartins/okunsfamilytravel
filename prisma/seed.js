@@ -72,6 +72,19 @@ async function main() {
   }
   console.log('✅ Blog posts seeded')
 
+  // Seed hero slides
+  const heroSlides = [
+    { heading: 'Explore Ireland', italic: '& The World', sub: 'With Us', tag: 'Ireland Travel', location: 'Wild Atlantic Way, Ireland', image: 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1920&q=85', order: 1 },
+    { heading: 'Castle Stays', italic: '& Hidden Gems', sub: 'Across Ireland', tag: 'Castle & Hotels', location: 'Cork City, Ireland', image: 'https://images.unsplash.com/photo-1564399579883-451a5d44ec08?w=1920&q=85', order: 2 },
+    { heading: 'World Adventures', italic: 'Beyond the Horizon', sub: 'With the Family', tag: 'World Travel', location: 'African Safari', image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?w=1920&q=85', order: 3 },
+    { heading: 'Beaches & Nature', italic: 'Sun, Sand & Sea', sub: 'Family Escapes', tag: 'Beaches & Nature', location: "Ireland's Wild Coast", image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1920&q=85', order: 4 },
+    { heading: 'Taste the World', italic: 'Food & Culture', sub: 'Family Favourites', tag: 'Food & Restaurants', location: 'Food Adventures', image: 'https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1920&q=85', order: 5 },
+  ]
+  for (const s of heroSlides) {
+    await prisma.heroSlide.create({ data: s }).catch(() => {})
+  }
+  console.log('✅ Hero slides seeded')
+
   console.log('🎉 Database seeded successfully!')
 }
 
